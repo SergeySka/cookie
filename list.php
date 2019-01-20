@@ -3,10 +3,13 @@ ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 session_start();
+require_once(__DIR__ .DIRECTORY_SEPARATOR. 'core' . DIRECTORY_SEPARATOR.'function.php'); 
 if (isset($_GET['del'],$_SESSION['user'])) {
+	chdir('uploads');
 	unlink($_GET['del']);
 	header('Location: list.php');
 }
+chdir('uploads');
 $type = glob('*.json');
 
  ?>
@@ -41,5 +44,6 @@ $type = glob('*.json');
 	<?php if (isset($_SESSION['user'])) {  ?>
 	<p><a href="admin.php">На страницу загрузки теста</a></p>
 	<?php } ?>
+	<a href="index.php?logout=true">Выйти</a>
  </body>
  </html>
