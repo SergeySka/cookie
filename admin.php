@@ -5,15 +5,14 @@ ini_set('display_startup_errors', 1);
 session_start();
 if (!isset($_SESSION['user'])) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
-	echo "Доступ запрещен";
-	exit;
+	exit('<h1>Доступ запрещен</h1><p>Перейти к <a href="index.php">форме авторизации</a></p>');
 	}
 if (!empty($_FILES["upload"]["type"])) {
 	if ($_FILES["upload"]["type"] !== 'application/json') {
 	echo 'Ошибка! Выберите тест в формате json';
 	}
 	else {
-	move_uploaded_file($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"]);
+	move_uploaded_file($_FILES["upload"]["tmp_name"], __DIR__ . DIRECTORY_SEPARATOR .'uploads'. DIRECTORY_SEPARATOR.$_FILES["upload"]["name"]);
 	header('Location: list.php');
 	}
 };
@@ -31,5 +30,6 @@ if (!empty($_FILES["upload"]["type"])) {
 		<p><input type="submit"></p>
 	</form>	
 	<p><a href="list.php">К списку тестов</a></p>
+	<a href="index.php?logout=true">Выйти</a>
 </body>
 </html>
