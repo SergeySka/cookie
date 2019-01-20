@@ -3,8 +3,9 @@ ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 session_start();
-if (isset($_GET["test"]) && file_exists(__DIR__ .DIRECTORY_SEPARATOR.$_GET["test"])) {
-$data = file_get_contents(__DIR__ .DIRECTORY_SEPARATOR.$_GET["test"]);
+require_once(__DIR__ .DIRECTORY_SEPARATOR. 'core' . DIRECTORY_SEPARATOR.'function.php'); 
+if (isset($_GET["test"]) && file_exists(__DIR__ .DIRECTORY_SEPARATOR. 'uploads' . DIRECTORY_SEPARATOR.$_GET["test"])) {
+$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR .'uploads' . DIRECTORY_SEPARATOR . $_GET["test"]);
 $test = json_decode($data, true);
 }
 else {
@@ -24,7 +25,7 @@ else {
  </head>
  <body>
  	<p>Прочитайте вопрос и выберите вариант ответа</p>
- 	<?='<form action="./check.php?test='.$_GET["test"].'" method="POST">' ?>
+ 	<?='<form action="./core/check.php?test='.$_GET["test"].'" method="POST">' ?>
  		<?php $i=1; foreach ($test["questions"] as $key => $question) : ?>
 		<fieldset>	
  		<legend><?=$key ?></legend>
@@ -36,6 +37,7 @@ else {
  	<input type="submit">
  	</form>
  	<p><a href="list.php">К списку тестов</a></p>
+ 	<a href="index.php?logout=true">Выйти</a>
  </body>
  </html>
 
