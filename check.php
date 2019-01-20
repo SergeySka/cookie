@@ -3,9 +3,9 @@ ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 session_start();
-
-if (isset($_GET["test"]) && file_exists(__DIR__ .DIRECTORY_SEPARATOR.$_GET["test"])) {
-$data = file_get_contents(__DIR__ .DIRECTORY_SEPARATOR.$_GET["test"]);
+require_once( __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR. 'core' . DIRECTORY_SEPARATOR.'function.php'); // здесь вопрос у меня
+if (isset($_GET["test"]) && file_exists(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR.'uploads' . DIRECTORY_SEPARATOR.$_GET["test"])) {
+$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..'  . DIRECTORY_SEPARATOR.'uploads' . DIRECTORY_SEPARATOR.$_GET["test"]);
 $test = json_decode($data, true);
 }
 if(!empty($_POST)) {
@@ -31,7 +31,7 @@ $win = 'Вы молодец!';
 $image = imagecreatetruecolor(500, 400);
 $backColor = imagecolorallocate($image, random_int(1, 255), random_int(1, 255), random_int(1, 255));
 $textColor = imagecolorallocate($image, random_int(1, 255), random_int(1, 255), random_int(1, 255));
-$boxFile = __DIR__.DIRECTORY_SEPARATOR.'image.png';
+$boxFile = __DIR__ . DIRECTORY_SEPARATOR . '..' .  DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'image.png';
 if (!file_exists($boxFile)) {
 	echo 'Файл с картинкой не найден';
 	exit;
@@ -39,11 +39,12 @@ if (!file_exists($boxFile)) {
 $imBox = imagecreatefrompng($boxFile);
 imagefill($image, 0, 0, $backColor);
 imagecopy($image, $imBox, 25, 42, 0, 0, 450, 316);
-$fontFile = __DIR__. DIRECTORY_SEPARATOR . '13159.otf';
+$fontFile = __DIR__ . DIRECTORY_SEPARATOR . '..' .  DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR . '13159.otf';
 if (!file_exists($fontFile)) {
 	echo 'Файл со шрифтом не найден';
 	exit;
 }
+
 imagettftext($image, 20, 0, 200, 200, $textColor, $fontFile, $name);
 imagettftext($image, 20, 0, 120, 240, $textColor, $fontFile, $score);
 if ($count === $correct) {
