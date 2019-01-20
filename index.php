@@ -8,18 +8,23 @@ if (isset($_GET['logout'])) {
 	header("location:index.php");
 }
 
-
-if (file_exists(__DIR__ .DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.'login.json')) {
-$data = file_get_contents(__DIR__ .DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.'login.json');
-$users = json_decode($data, true);
-}
-
-if (isset($_POST['name'], $_POST['password'])) {
-	$username = $_POST['name'];
-	$password = $_POST['password'];
-	if (isset($users[$username]) && $users[$username] === $password) {
-		$_SESSION['user'] = $username;
+if (isset($_POST['name'], $_POST['password']) && !empty($_POST['password'])) {
+	if (file_exists(__DIR__ .DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR. $_POST['name'] .'.json')) {
+		$data = file_get_contents(__DIR__ .DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR. $_POST['name'] .'.json');
+		$users = json_decode($data, true);
+		$password = $_POST['password'];
+		foreach ($users as $key => $pass) {
+			if ($pass === $password) {
+			$_SESSION['user'] = $key;
+			}
+			else {
+			echo "Неверный пароль или логин";
+			}
+		}	
 	}
+	else {
+			echo "Пользователь с таким именем не найден";
+		}
 }
 if (isset($_POST['name']) && empty($_POST['password'])) {
 	$username = $_POST['name'];
